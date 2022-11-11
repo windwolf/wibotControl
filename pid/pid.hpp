@@ -39,6 +39,7 @@ class PidController
     };
 
   public:
+    PidController(Config &config) : config(config){};
     PidController(Config &&config) : config(config){};
     void reset();
     float update(float setpoint, float measurement);

@@ -1,1 +1,1 @@
-# wwControl
+# wibot::control

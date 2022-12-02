@@ -2,7 +2,7 @@
 #define __WWCONTROL_LP_HPP__
 
 #include "base.hpp"
-namespace wwControl
+namespace wibot::control
 {
 	struct FirstOrderLowPassFilterConfig
 	{
@@ -28,6 +28,6 @@ namespace wwControl
 	// using FirstOrderLowPassFilterf = FirstOrderLowPassFilter<float>;
 	// using FirstOrderLowPassFilters = FirstOrderLowPassFilter<uint16_t>;
 	// using FirstOrderLowPassFilterl = FirstOrderLowPassFilter<uint32_t>;
-} // namespace wwControl
+} // namespace wibot::control
 
 #endif // __WWCONTROL_LP_HPP__

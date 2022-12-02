@@ -1,6 +1,6 @@
 #include "pid.hpp"
 
-namespace wwControl
+namespace wibot::control
 {
 
 	void PidController::reset()
@@ -187,4 +187,4 @@ namespace wwControl
 		return out;
 	};
 
-} // namespace wwControl
+} // namespace wibot::control

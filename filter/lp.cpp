@@ -1,7 +1,7 @@
 
 #include "lp.hpp"
 
-namespace wwControl
+namespace wibot::control
 {
 	//template<typename T>
 	void FirstOrderLowPassFilter::config_apply(FirstOrderLowPassFilterConfig& config)
@@ -18,4 +18,4 @@ namespace wwControl
 		return _outputLast;
 	};
 
-} // namespace wwControl
+} // namespace wibot::control

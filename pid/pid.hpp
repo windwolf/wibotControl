@@ -3,7 +3,7 @@
 
 #include "framework/framework.hpp"
 
-namespace wwControl
+namespace wibot::control
 {
 	enum class PidControllerMode
 	{
@@ -54,6 +54,6 @@ namespace wwControl
 		float _prevMeasurement; /* Required for _differentiator */
 	};
 
-} // namespace wwControl
+} // namespace wibot::control
 
 #endif // __WWCONTROL_PID_HPP__

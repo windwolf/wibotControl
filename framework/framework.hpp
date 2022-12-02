@@ -5,7 +5,7 @@
 
 #define CONTROL_NODE_ZISE_IN_SCOPE 10
 
-namespace wwControl
+namespace wibot::control
 {
 	using namespace std;
 
@@ -82,5 +82,5 @@ namespace wwControl
 
 	};
 
-} // namespace wwControl
+} // namespace wibot::control
 #endif // ___FRAMEWORK_HPP__

@@ -1,35 +1,33 @@
 #ifndef __WWCONTROL_LP_HPP__
 #define __WWCONTROL_LP_HPP__
 
+#include "base.hpp"
 namespace wwControl
 {
-class FirstOrderLowPassFilter
-{
-  public:
-    struct Config
-    {
-        float sample_time;
-        float cutoff_freq;
-    };
+	struct FirstOrderLowPassFilterConfig
+	{
+		float sample_time;
+		float cutoff_freq;
+	};
+	//template<typename T>
+	class FirstOrderLowPassFilter : public Configurable<FirstOrderLowPassFilterConfig>
+	{
+	 public:
 
-  public:
-    FirstOrderLowPassFilter(Config &&config) : _config(config)
-    {
-        init();
-    };
+		void config_apply(FirstOrderLowPassFilterConfig& config);
 
-    void init();
+		float filter(float input);
 
-    float filter(float input);
+	 private:
+		float _alpha;
+		float _1_alpha;
 
-  private:
-    Config _config;
-    float _alpha;
-    float _1_alpha;
+		float _outputLast;
+	};
 
-    float _outputLast;
-};
-
+	// using FirstOrderLowPassFilterf = FirstOrderLowPassFilter<float>;
+	// using FirstOrderLowPassFilters = FirstOrderLowPassFilter<uint16_t>;
+	// using FirstOrderLowPassFilterl = FirstOrderLowPassFilter<uint32_t>;
 } // namespace wwControl
 
 #endif // __WWCONTROL_LP_HPP__

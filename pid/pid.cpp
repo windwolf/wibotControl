@@ -20,7 +20,7 @@ namespace wibot::control
 
 	float PidController::update(float setpoint, float measurement)
 	{
-		switch (_config.mode)
+		switch (config.mode)
 		{
 		case PidControllerMode::Serial:
 			return update_serial(setpoint, measurement);
@@ -53,23 +53,23 @@ namespace wibot::control
 		/*
 		 * Proportional
 		 */
-		float proportional = _config.Kp * error;
+		float proportional = config.Kp * error;
 
 		/*
 		 * Integral
 		 */
-		_integrator = _integrator + 0.5f * _config.Ki * _config.sample_time * (error + _prevError);
+		_integrator = _integrator + 0.5f * config.Ki * config.sample_time * (error + _prevError);
 
 		/* Anti-wind-up via _integrator clamping */
-		if (_config.integrator_limit_enable)
+		if (config.integrator_limit_enable)
 		{
-			if (_integrator > _config.integrator_limit_max)
+			if (_integrator > config.integrator_limit_max)
 			{
-				_integrator = _config.integrator_limit_max;
+				_integrator = config.integrator_limit_max;
 			}
-			else if (_integrator < _config.integrator_limit_min)
+			else if (_integrator < config.integrator_limit_min)
 			{
-				_integrator = _config.integrator_limit_min;
+				_integrator = config.integrator_limit_min;
 			}
 		}
 
@@ -78,26 +78,26 @@ namespace wibot::control
 		 */
 
 		_differentiator =
-			-(2.0f * _config.Kd *
+			-(2.0f * config.Kd *
 				(measurement - _prevMeasurement) /* Note: derivative on measurement, therefore
                                                         minus sign in front of equation! */
-				+ (2.0f * _config.tau - _config.sample_time) * _differentiator) /
-				(2.0f * _config.tau + _config.sample_time);
+				+ (2.0f * config.tau - config.sample_time) * _differentiator) /
+				(2.0f * config.tau + config.sample_time);
 
 		/*
 		 * Compute output and apply limits
 		 */
 		out = proportional + _integrator + _differentiator;
 
-		if (_config.output_limit_enable)
+		if (config.output_limit_enable)
 		{
-			if (out > _config.output_limit_max)
+			if (out > config.output_limit_max)
 			{
-				out = _config.output_limit_max;
+				out = config.output_limit_max;
 			}
-			else if (out < _config.output_limit_min)
+			else if (out < config.output_limit_min)
 			{
-				out = _config.output_limit_min;
+				out = config.output_limit_min;
 			}
 		}
 
@@ -136,18 +136,18 @@ namespace wibot::control
 		/*
 		 * Integral
 		 */
-		_integrator = _integrator + 0.5f * _config.Ki * _config.sample_time * (error + _prevError);
+		_integrator = _integrator + 0.5f * config.Ki * config.sample_time * (error + _prevError);
 
-		if (_config.integrator_limit_enable)
+		if (config.integrator_limit_enable)
 		{
 			/* Anti-wind-up via _integrator clamping */
-			if (_integrator > _config.integrator_limit_max)
+			if (_integrator > config.integrator_limit_max)
 			{
-				_integrator = _config.integrator_limit_max;
+				_integrator = config.integrator_limit_max;
 			}
-			else if (_integrator < _config.integrator_limit_min)
+			else if (_integrator < config.integrator_limit_min)
 			{
-				_integrator = _config.integrator_limit_min;
+				_integrator = config.integrator_limit_min;
 			}
 		}
 
@@ -156,26 +156,26 @@ namespace wibot::control
 		 */
 
 		_differentiator =
-			-(2.0f * _config.Kd * (measurement - _prevMeasurement)
+			-(2.0f * config.Kd * (measurement - _prevMeasurement)
 				/* Note: derivative on measurement, therefore minus sign in front of equation! */
-				+ (2.0f * _config.tau - _config.sample_time) * _differentiator) /
-				(2.0f * _config.tau + _config.sample_time);
+				+ (2.0f * config.tau - config.sample_time) * _differentiator) /
+				(2.0f * config.tau + config.sample_time);
 
 		/*
 		 * Compute output and apply limits
 		 */
-		out = _config.Kp * (proportional + _integrator + _differentiator);
+		out = config.Kp * (proportional + _integrator + _differentiator);
 
-		if (_config.output_limit_enable)
+		if (config.output_limit_enable)
 		{
 
-			if (out > _config.output_limit_max)
+			if (out > config.output_limit_max)
 			{
-				out = _config.output_limit_max;
+				out = config.output_limit_max;
 			}
-			else if (out < _config.output_limit_min)
+			else if (out < config.output_limit_min)
 			{
-				out = _config.output_limit_min;
+				out = config.output_limit_min;
 			}
 		}
 

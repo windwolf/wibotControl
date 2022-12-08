@@ -38,6 +38,8 @@ namespace wibot::control
 	class PidController : public Configurable<PidControllerConfig>
 	{
 	 public:
+		PidController();
+
 		void reset();
 		float update(float setpoint, float measurement);
 

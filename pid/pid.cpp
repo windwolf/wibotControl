@@ -185,6 +185,10 @@ namespace wibot::control
 
 		/* Return controller output */
 		return out;
+	}
+	PidController::PidController()
+	{
+		reset();
 	};
 
 } // namespace wibot::control

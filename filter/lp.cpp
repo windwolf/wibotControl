@@ -1,8 +1,14 @@
 
+#include <cmath>
 #include "lp.hpp"
 
 namespace wibot::control
 {
+
+	static float wrap(float x, float w)
+	{
+		return x - 2 * w * floor((x + w) / 2 / w);
+	}
 	//template<typename T>
 	void FirstOrderLowPassFilter::config_apply(FirstOrderLowPassFilterConfig& config)
 	{
@@ -14,7 +20,15 @@ namespace wibot::control
 	//template<typename T>
 	float FirstOrderLowPassFilter::filter(float input)
 	{
-		_outputLast = _alpha * input + _1_alpha * _outputLast;
+		if (!config.enable_wrap)
+		{
+			_outputLast = _alpha * input + _1_alpha * _outputLast;
+		}
+		else
+		{
+			_outputLast = wrap(_outputLast + _alpha * wrap(input - _outputLast, config.wrap_value), config.wrap_value);
+		}
+
 		return _outputLast;
 	};
 

@@ -39,7 +39,7 @@ namespace wibot::control
 	{
 	 public:
 		PidController();
-
+		void config_apply(PidControllerConfig& config);
 		void reset();
 		float update(float setpoint, float measurement);
 

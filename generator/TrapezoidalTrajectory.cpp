@@ -114,6 +114,8 @@ namespace wibot
 			{
 				// TODO: report error here
 			}
+
+			return trajStep;
 		}
 	} // wibot
 } // control

@@ -8,7 +8,7 @@ namespace wibot::control
 	{
 		float sample_time;
 		float cutoff_freq;
-		bool enable_wrap;
+		bool enable_wrap = false;
 		float wrap_value;
 	};
 	//template<typename T>

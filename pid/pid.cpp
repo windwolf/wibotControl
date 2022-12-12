@@ -12,7 +12,7 @@ namespace wibot::control
 		_differentiator = 0.0f;
 		_prevMeasurement = 0.0f;
 	};
-	
+
 	float PidController::update(float setpoint, float measurement)
 	{
 		switch (config.mode)
@@ -184,10 +184,6 @@ namespace wibot::control
 	PidController::PidController()
 	{
 		reset();
-	}
-	void PidController::config_apply(PidControllerConfig& config)
-	{
-		this->config = config;
 	}
 
 } // namespace wibot::control

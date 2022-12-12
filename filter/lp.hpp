@@ -16,7 +16,7 @@ namespace wibot::control
 	{
 	 public:
 
-		void config_apply(FirstOrderLowPassFilterConfig& config);
+		void apply_config() override;
 
 		float filter(float input);
 

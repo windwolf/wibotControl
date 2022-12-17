@@ -1,5 +1,5 @@
 #include "kf_test.hpp"
-#include "kf/kf.hpp"
+#include "libs/wibotDSP/filter/kf.hpp"
 #include "minunit.h"
 #include "stdlib.h"
 #include "basic/math_shared.hpp"

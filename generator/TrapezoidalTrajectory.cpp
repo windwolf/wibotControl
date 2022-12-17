@@ -71,11 +71,7 @@ namespace wibot
 
 			return true;
 		}
-		void TrapezoidalTrajectory::config_apply(TrapezoidalTrajectoryConfig& config)
-		{
-			config_ = config;
 
-		}
 		TrapezoidalTrajectoryStep TrapezoidalTrajectory::eval(float t)
 		{
 			TrapezoidalTrajectoryStep trajStep;

@@ -27,11 +27,9 @@ namespace wibot
 		class TrapezoidalTrajectory : Configurable<TrapezoidalTrajectoryConfig>
 		{
 		 public:
-			void config_apply(TrapezoidalTrajectoryConfig& config);
 			bool plan(float start_pos, float end_pos, float start_vel, float max_vel, float max_acc, float max_dec);
 			TrapezoidalTrajectoryStep eval(float t);
 		 private:
-			TrapezoidalTrajectoryConfig config_;
 
 			float start_pos_;
 			float end_pos_;

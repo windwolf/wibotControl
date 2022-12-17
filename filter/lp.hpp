@@ -16,7 +16,7 @@ namespace wibot::control
 	{
 	 public:
 
-		void apply_config() override;
+		Result apply_config() override;
 
 		float filter(float input);
 

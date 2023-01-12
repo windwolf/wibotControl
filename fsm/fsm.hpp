@@ -123,6 +123,8 @@ namespace wibot::control
 
 		void event_reset(uint32_t events);
 
+        uint32_t event_get();
+
 		void update(uint32_t tick);
 
 		void update_inc(uint32_t tickInc);

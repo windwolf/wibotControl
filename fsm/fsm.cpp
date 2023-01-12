@@ -332,5 +332,9 @@ namespace wibot::control
 			}
 		}
 		return nullptr;
-	};
+	}
+    uint32_t FSM::event_get()
+    {
+        return _events.get();
+    };
 } // namespace wibot::fsm

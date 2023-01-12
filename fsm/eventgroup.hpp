@@ -22,6 +22,7 @@ class FSM_EventGroup
     void reset(uint32_t events);
     void update_begin();
     void update_end();
+    uint32_t get();
 
   private:
     uint32_t _events;

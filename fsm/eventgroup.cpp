@@ -20,5 +20,9 @@ void FSM_EventGroup::update_begin(){
 void FSM_EventGroup::update_end()
 {
     _events &= ~_eventsClearMask;
+}
+uint32_t FSM_EventGroup::get()
+{
+    return _events;
 };
 } // namespace wibot::fsm

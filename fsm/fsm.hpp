@@ -77,6 +77,8 @@ namespace wibot::control
 		bool transit_check(FSM& fsm);
 	};
 
+
+
 	struct FSM_Transition_Config
 	{
 		const char* name;
@@ -133,6 +135,22 @@ namespace wibot::control
 		void* userData;
 		uint32_t lastUpdateTick;
 		uint32_t currentTick;
+
+        void apply_state_config(const FSM_State_Config* config) {
+            for (int i = 0; i < _stateCount; ++i)
+            {
+                _states[i].config = config[i];
+                _states[i].apply_config();
+            }
+        };
+
+        void apply_transition_config(const FSM_Transition_Config* config) {
+            for (int i = 0; i < _transitionCount; ++i)
+            {
+                _transitions[i].config = config[i];
+                _transitions[i].apply_config();
+            }
+        };
 
 	 private:
 		const char* _name;

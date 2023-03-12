@@ -131,6 +131,8 @@ namespace wibot::control
 
 		void update_inc(uint32_t tickInc);
 
+        FSM_State* get_current_state();
+
 	 public:
 		void* userData;
 		uint32_t lastUpdateTick;

@@ -336,5 +336,9 @@ namespace wibot::control
     uint32_t FSM::event_get()
     {
         return _events.get();
+    }
+    FSM_State* FSM::get_current_state()
+    {
+        return _currentState;
     };
 } // namespace wibot::fsm

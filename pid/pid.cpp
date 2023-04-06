@@ -5,9 +5,9 @@ namespace wibot::control {
 void PidController::reset() {
     /* Clear controller variables */
     _integrator = 0.0f;
-    _prevError = 0.0f;
+    _prevError  = 0.0f;
 
-    _differentiator = 0.0f;
+    _differentiator  = 0.0f;
     _prevMeasurement = 0.0f;
 };
 
@@ -84,7 +84,7 @@ float PidController::update_parallel(float setpoint, float measurement) {
     }
 
     /* Store error and measurement for later use */
-    _prevError = error;
+    _prevError       = error;
     _prevMeasurement = measurement;
 
     /* Return controller output */
@@ -152,13 +152,17 @@ float PidController::update_serial(float setpoint, float measurement) {
     }
 
     /* Store error and measurement for later use */
-    _prevError = error;
+    _prevError       = error;
     _prevMeasurement = measurement;
 
     /* Return controller output */
     return out;
 }
-PidController::PidController() { reset(); }
-Result PidController::apply_config() { return Configurable::apply_config(); }
+PidController::PidController() {
+    reset();
+}
+Result PidController::apply_config() {
+    return Configurable::apply_config();
+}
 
 }  // namespace wibot::control

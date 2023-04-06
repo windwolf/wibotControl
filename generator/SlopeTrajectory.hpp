@@ -5,17 +5,12 @@
 #ifndef WWMOTOR_LIBS_WWCONTROL_GENERATOR_SLOPETRAJECTORY_HPP_
 #define WWMOTOR_LIBS_WWCONTROL_GENERATOR_SLOPETRAJECTORY_HPP_
 
-namespace wibot
-{
-	namespace control
-	{
+namespace wibot {
+namespace control {
 
-		class SlopeTrajectory
-		{
+class SlopeTrajectory {};
 
-		};
+}  // namespace control
+}  // namespace wibot
 
-	} // wibot
-} // control
-
-#endif //WWMOTOR_LIBS_WWCONTROL_GENERATOR_SLOPETRAJECTORY_HPP_
+#endif  // WWMOTOR_LIBS_WWCONTROL_GENERATOR_SLOPETRAJECTORY_HPP_

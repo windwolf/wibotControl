@@ -5,9 +5,8 @@
 
 #define CONTROL_NODE_ZISE_IN_SCOPE 10
 
-namespace wibot::control
-{
-	using namespace std;
+namespace wibot::control {
+using namespace std;
 
 /**
  * framework要解决几个问题.
@@ -17,71 +16,59 @@ namespace wibot::control
  * 4.
  */
 
-	class ControlScope
-	{
-	 public:
-		enum class Mode
-		{
-			FixStep,
-			VariableStep,
-		};
-	 public:
-		ControlScope(float sample_time)
-		{
-			_mode = Mode::FixStep;
-			sample_time = sample_time;
-			_sample_time_changed = false;
-		}
+class ControlScope {
+   public:
+    enum class Mode {
+        FixStep,
+        VariableStep,
+    };
 
-		ControlScope()
-		{
-			_mode = Mode::VariableStep;
-		}
+   public:
+    ControlScope(float sample_time) {
+        _mode                = Mode::FixStep;
+        sample_time          = sample_time;
+        _sample_time_changed = false;
+    }
 
-		void update(float sample_time)
-		{
-			if (_mode == Mode::FixStep)
-			{
-				_sample_time_changed = false;
-				return;
-			}
-			if (sample_time != _sample_time)
-			{
-				_sample_time = sample_time;
-				_sample_time_changed = true;
-			}
-			else
-			{
-				_sample_time_changed = false;
-			}
-		};
+    ControlScope() {
+        _mode = Mode::VariableStep;
+    }
 
-		float sample_time_get()
-		{
-			return _sample_time;
-		}
-		bool sample_time_changed()
-		{
-			return _sample_time_changed;
-		}
+    void update(float sample_time) {
+        if (_mode == Mode::FixStep) {
+            _sample_time_changed = false;
+            return;
+        }
+        if (sample_time != _sample_time) {
+            _sample_time         = sample_time;
+            _sample_time_changed = true;
+        } else {
+            _sample_time_changed = false;
+        }
+    };
 
-	 private:
-		Mode _mode;
-		float _sample_time;
-		uint32_t _tick;
-		bool _sample_time_changed;
-	};
+    float sample_time_get() {
+        return _sample_time;
+    }
+    bool sample_time_changed() {
+        return _sample_time_changed;
+    }
 
-	class ControlNode
-	{
-	 public:
-		friend class ControlScope;
+   private:
+    Mode     _mode;
+    float    _sample_time;
+    uint32_t _tick;
+    bool     _sample_time_changed;
+};
 
-		void init();
+class ControlNode {
+   public:
+    friend class ControlScope;
 
-		virtual void update(ControlScope& scp) = 0;
+    void init();
 
-	};
+    virtual void update(ControlScope& scp) = 0;
+};
 
-} // namespace wibot::control
-#endif // ___FRAMEWORK_HPP__
+}  // namespace wibot::control
+#endif  // ___FRAMEWORK_HPP__

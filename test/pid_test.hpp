@@ -2,16 +2,13 @@
 #define __WWCONTROL_TEST_PID_TEST_H__
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-
-    int pid_test();
-
+int pid_test();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __WWCONTROL_TEST_PID_TEST_H__
+#endif  // __WWCONTROL_TEST_PID_TEST_H__

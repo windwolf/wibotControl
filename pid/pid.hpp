@@ -11,20 +11,20 @@ enum class PidControllerMode {
 struct PidControllerConfig {
     PidControllerMode mode;
     /* Controller gains */
-    float Kp;
-    float Ki;
-    float Kd;
+    float             Kp;
+    float             Ki;
+    float             Kd;
 
     /* Derivative low-pass filter time constant */
     float tau;
 
     /* Output limits */
-    bool output_limit_enable;
+    bool  output_limit_enable;
     float output_limit_max;
     float output_limit_min;
 
     /* Integrator limits */
-    bool integrator_limit_enable;
+    bool  integrator_limit_enable;
     float integrator_limit_max;
     float integrator_limit_min;
 
@@ -36,8 +36,8 @@ class PidController : public Configurable<PidControllerConfig> {
    public:
     PidController();
     Result apply_config() override;
-    void reset();
-    float update(float setpoint, float measurement);
+    void   reset();
+    float  update(float setpoint, float measurement);
 
    protected:
    private:

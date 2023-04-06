@@ -4,9 +4,6 @@
 
 #include "SlopeTrajectory.hpp"
 
-namespace wibot
-{
-	namespace control
-	{
-	} // wibot
-} // control
+namespace wibot {
+namespace control {}  // namespace control
+}  // namespace wibot

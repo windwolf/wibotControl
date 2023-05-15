@@ -199,11 +199,16 @@ void FSM::_transition_check(FSM_State& state) {
             FSM_Transition* transition = curSta->_transitions[i];
 #else
         for (uint8_t i = 0; i < _transitionCount; i++) {
+            // filter transition from current state or current parent state.
             FSM_Transition* transition = &(_transitions[i]);
             if (transition->config.from != curSta->config.stateNo) {
                 continue;
             }
 #endif
+            // skip transition to self
+            if (transition->config.to == state.config.stateNo) {
+                continue;
+            }
             if (transition->_do_event_check(*this, curSta)) {
                 return;
             }

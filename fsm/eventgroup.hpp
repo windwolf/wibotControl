@@ -16,8 +16,7 @@ class FSM_EventGroup {
     bool     check(FSM_EventFlag &eventFlags);
     void     set(uint32_t events);
     void     reset(uint32_t events);
-    void     update_begin();
-    void     update_end();
+    void     clear();
     uint32_t get();
 
    private:

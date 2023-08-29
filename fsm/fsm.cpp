@@ -250,10 +250,10 @@ void FSM::update(uint32_t tick) {
     if (state == nullptr) {
         return;
     }
-    _events.update_begin();
+
     state->poll(*this);
     _transition_check(*state);
-    _events.update_end();
+    _events.clear();
 
     lastUpdateTick = tick;
 };

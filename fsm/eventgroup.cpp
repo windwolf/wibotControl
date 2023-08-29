@@ -10,10 +10,7 @@ void FSM_EventGroup::set(uint32_t events) {
 void FSM_EventGroup::reset(uint32_t events) {
     _events &= ~events;
 };
-void FSM_EventGroup::update_begin(){
-
-};
-void FSM_EventGroup::update_end() {
+void FSM_EventGroup::clear() {
     _events &= ~_eventsClearMask;
 }
 uint32_t FSM_EventGroup::get() {

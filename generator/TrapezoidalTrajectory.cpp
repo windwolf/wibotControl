@@ -58,38 +58,109 @@ bool TrapezoidalTrajectory::plan(float start_pos, float end_pos, float start_vel
     start_vel_  = start_vel;
     yAccel_     = start_pos + start_vel * acc_time_ +
               0.5f * acc_rated_ * acc_time_ * acc_time_;  // pos at end of accel phase
-
+    yCruise_ = yAccel_ + vel_rated_ * cruise_time_;       // pos at end of cruise phase
     return true;
 }
 
-TrapezoidalTrajectoryStep TrapezoidalTrajectory::eval(float t) {
+TrapezoidalTrajectoryStep TrapezoidalTrajectory::evalByTime(float t) {
     TrapezoidalTrajectoryStep trajStep;
     if (t < 0.0f) {  // Initial Condition
-        trajStep.Y   = start_pos_;
-        trajStep.Yd  = start_vel_;
-        trajStep.Ydd = 0.0f;
+        trajStep.Y     = start_pos_;
+        trajStep.Yd    = start_vel_;
+        trajStep.Ydd   = 0.0f;
+        trajStep.stage = TrapezoidalTrajectoryStage::Init;
     } else if (t < acc_time_) {  // Accelerating
-        trajStep.Y   = start_pos_ + start_vel_ * t + 0.5f * acc_rated_ * t * t;
-        trajStep.Yd  = start_vel_ + acc_rated_ * t;
-        trajStep.Ydd = acc_rated_;
+        trajStep.Y     = start_pos_ + start_vel_ * t + 0.5f * acc_rated_ * t * t;
+        trajStep.Yd    = start_vel_ + acc_rated_ * t;
+        trajStep.Ydd   = acc_rated_;
+        trajStep.stage = TrapezoidalTrajectoryStage::Accel;
     } else if (t < acc_time_ + cruise_time_) {  // Coasting
-        trajStep.Y   = yAccel_ + vel_rated_ * (t - acc_time_);
-        trajStep.Yd  = vel_rated_;
-        trajStep.Ydd = 0.0f;
+        trajStep.Y     = yAccel_ + vel_rated_ * (t - acc_time_);
+        trajStep.Yd    = vel_rated_;
+        trajStep.Ydd   = 0.0f;
+        trajStep.stage = TrapezoidalTrajectoryStage::Cruise;
     } else if (t < final_time_) {  // Deceleration
-        float td     = t - final_time_;
-        trajStep.Y   = end_pos_ + 0.5f * dec_rated_ * td * td;
-        trajStep.Yd  = dec_rated_ * td;
-        trajStep.Ydd = dec_rated_;
+        float td       = t - final_time_;
+        trajStep.Y     = end_pos_ + 0.5f * dec_rated_ * td * td;
+        trajStep.Yd    = dec_rated_ * td;
+        trajStep.Ydd   = dec_rated_;
+        trajStep.stage = TrapezoidalTrajectoryStage::Decel;
     } else if (t >= final_time_) {  // Final Condition
-        trajStep.Y   = end_pos_;
-        trajStep.Yd  = 0.0f;
-        trajStep.Ydd = 0.0f;
+        trajStep.Y     = end_pos_;
+        trajStep.Yd    = 0.0f;
+        trajStep.Ydd   = 0.0f;
+        trajStep.stage = TrapezoidalTrajectoryStage::Final;
     } else {
         // TODO: report error here
     }
 
     return trajStep;
 }
+
+TrapezoidalTrajectoryStep TrapezoidalTrajectory::evalByPos(float currentPos) {
+    TrapezoidalTrajectoryStep trajStep;
+    if (start_pos_ >= end_pos_) {
+        if (currentPos >= start_pos_) {  // Initial Condition
+            trajStep.Y     = start_pos_;
+            trajStep.Yd    = start_vel_;
+            trajStep.Ydd   = 0.0f;
+            trajStep.stage = TrapezoidalTrajectoryStage::Init;
+        } else if (currentPos >= yAccel_) {  // Accelerating
+            trajStep.Y     = currentPos;
+            trajStep.Yd    = start_vel_ - std::sqrt(acc_rated_ * (start_pos_ - currentPos) * 2.0f);
+            trajStep.Ydd   = acc_rated_;
+            trajStep.stage = TrapezoidalTrajectoryStage::Accel;
+        } else if (currentPos >= yCruise_) {  // Coasting
+            trajStep.Y     = currentPos;
+            trajStep.Yd    = vel_rated_;
+            trajStep.Ydd   = 0.0f;
+            trajStep.stage = TrapezoidalTrajectoryStage::Cruise;
+        } else if (currentPos >= end_pos_) {  // Deceleration
+            trajStep.Y     = currentPos;
+            trajStep.Yd    = std::sqrt(acc_rated_ * (currentPos - end_pos_) * 2.0f);
+            trajStep.Ydd   = dec_rated_;
+            trajStep.stage = TrapezoidalTrajectoryStage::Decel;
+        } else if (currentPos < end_pos_) {  // Final Condition
+            trajStep.Y     = end_pos_;
+            trajStep.Yd    = 0.0f;
+            trajStep.Ydd   = 0.0f;
+            trajStep.stage = TrapezoidalTrajectoryStage::Final;
+        } else {
+            // TODO: report error here
+        }
+    } else {
+        if (currentPos <= start_pos_) {  // Initial Condition
+            trajStep.Y     = start_pos_;
+            trajStep.Yd    = start_vel_;
+            trajStep.Ydd   = 0.0f;
+            trajStep.stage = TrapezoidalTrajectoryStage::Init;
+        } else if (currentPos <= yAccel_) {  // Accelerating
+            trajStep.Y     = currentPos;
+            trajStep.Yd    = start_vel_ - std::sqrt(acc_rated_ * (currentPos - start_pos_) * 2.0f);
+            trajStep.Ydd   = acc_rated_;
+            trajStep.stage = TrapezoidalTrajectoryStage::Accel;
+        } else if (currentPos <= yCruise_) {  // Coasting
+            trajStep.Y     = currentPos;
+            trajStep.Yd    = vel_rated_;
+            trajStep.Ydd   = 0.0f;
+            trajStep.stage = TrapezoidalTrajectoryStage::Cruise;
+        } else if (currentPos <= end_pos_) {  // Deceleration
+            trajStep.Y     = currentPos;
+            trajStep.Yd    = std::sqrt(acc_rated_ * (end_pos_ - currentPos) * 2.0f);
+            trajStep.Ydd   = dec_rated_;
+            trajStep.stage = TrapezoidalTrajectoryStage::Decel;
+        } else if (currentPos > end_pos_) {  // Final Condition
+            trajStep.Y     = end_pos_;
+            trajStep.Yd    = 0.0f;
+            trajStep.Ydd   = 0.0f;
+            trajStep.stage = TrapezoidalTrajectoryStage::Final;
+        } else {
+            // TODO: report error here
+        }
+    }
+
+    return trajStep;
+}
+
 }  // namespace control
 }  // namespace wibot
